@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="section-title">Últimas Publicaciones</h2>
+        
+        {% if post_list %}
+            {% for post in post_list %}
+                <div class="post-entry">
+                    <h2><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2>
+                    <p class="post-meta">
+                        <small>
+                            {% if post.created_at %}Publicado el {{ post.created_at|date:"d M, Y" }}{% endif %}
+                            {% if post.author %} por {{ post.author }}{% endif %}
+                        </small>
+                    </p>
+                    <p>{{ post.body|truncatewords:30 }}</p>
+                    <a href="{% url 'post_detail' post.pk %}" class="card-link">Leer más <i class="fas fa-arrow-right"></i></a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info">
+                No hay publicaciones disponibles en este momento.
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}
